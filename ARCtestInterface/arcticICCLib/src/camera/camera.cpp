@@ -280,7 +280,7 @@ namespace arcticICC {
         std::cout << "_device.setOpenShutter(" << openShutter << ")\n";
         _device.setOpenShutter(openShutter);
 
-        int expTimeMS = int(expTime*1000.0);
+        uint32_t expTimeMS = uint32_t(expTime*1000.0);
         std::ostringstream os;
         os << "Set exposure time to " << expTimeMS << " ms";
         runCommand(os.str(), arc::TIM_ID, arc::SET, expTimeMS);
@@ -310,7 +310,7 @@ namespace arcticICC {
         if (getExposureState().state != StateEnum::Paused) {
             throw std::runtime_error("no paused exposure to resume");
         }
-        runCommand("resume exposure`", arc::TIM_ID, arc::REX);
+        runCommand("resume exposure", arc::TIM_ID, arc::REX);
         _segmentStartTime = std::chrono::steady_clock::now();
         _segmentStartValid = true;
     }
@@ -387,7 +387,7 @@ namespace arcticICC {
             // - arg1 is the bias region width (in pixels)
             // - arg2 is the subarray width (in pixels)
             // - arg3 is the subarray height (in pixels)
-            int const xExtraPix = config.getBinnedWidth() - config.winWidth;
+            uint32_t const xExtraPix = config.getBinnedWidth() - config.winWidth;
             runCommand("set window size", arc::TIM_ID, arc::SSS, xExtraPix, config.winWidth, config.winHeight);
 
             // set subarray starting-point; warning: this only works when reading from one amplifier
@@ -395,24 +395,24 @@ namespace arcticICC {
             // - arg1 is the subarray Y position. This is the number of rows (in pixels) to the lower left corner of the desired subarray region.
             // - arg2 is the subarray X position. This is the number of columns (in pixels) to the lower left corner of the desired subarray region.
             // - arg3 is the bias region offset. This is the number of columns (in pixels) to the left edge of the desired bias region.
-            int const windowEndCol = config.winStartCol + config.winWidth;
-            int const afterDataGap = 5 + config.computeBinnedWidth(CCDWidth) - windowEndCol; // 5 skips some odd gunk
+            uint32_t const windowEndCol = config.winStartCol + config.winWidth;
+            uint32_t const afterDataGap = 5 + config.computeBinnedWidth(CCDWidth) - windowEndCol; // 5 skips some odd gunk
             runCommand("set window position", arc::TIM_ID, arc::SSP, config.winStartRow, config.winStartCol, afterDataGap);
         }
 
-        int readoutAmpsCmdValue = ReadoutAmpsCmdValueMap.find(config.readoutAmps)->second;
+        uint32_t readoutAmpsCmdValue = ReadoutAmpsCmdValueMap.find(config.readoutAmps)->second;
         runCommand("set readoutAmps", arc::TIM_ID, arc::SOS, readoutAmpsCmdValue, arc::DON);
 
-        int readoutRateCmdValue = ReadoutRateCmdValueMap.find(config.readoutRate)->second;
+        uint32_t readoutRateCmdValue = ReadoutRateCmdValueMap.find(config.readoutRate)->second;
         runCommand("set readout rate", arc::TIM_ID, SPS, readoutRateCmdValue, arc::DON);
 
         if (config.readoutAmps == ReadoutAmps::Quad) {
-            int xSkip = ColBinXSkipMap_Quad.find(config.binFacCol)->second;
-            int ySkip = config.binFacRow == 3 ? 1 : 0;
+            uint32_t xSkip = ColBinXSkipMap_Quad.find(config.binFacCol)->second;
+            uint32_t ySkip = config.binFacRow == 3 ? 1 : 0;
             runCommand("set xy skip for all amps", arc::TIM_ID, SXY, xSkip, ySkip);
         } else {
-            int xSkip = ColBinXSkipMap_One.find(config.binFacCol)->second;
-            xSkip = std::max(0, xSkip - config.winStartCol);
+            uint32_t xSkip = ColBinXSkipMap_One.find(config.binFacCol)->second;
+            xSkip = std::max(uint32_t(0), xSkip - config.winStartCol);
             runCommand("set xy skip for one amp", arc::TIM_ID, SXY, xSkip, 0);
         }
 
@@ -490,13 +490,13 @@ namespace arcticICC {
         _clearBuffer();
     }
 
-    void Camera::runCommand(std::string const &descr, int boardID, int cmd, int arg1, int arg2, int arg3) {
+    void Camera::runCommand(std::string const &descr, uint32_t boardID, uint32_t cmd, uint32_t arg1, uint32_t arg2, uint32_t arg3) {
         if ((boardID != arc::TIM_ID) && (boardID != arc::UTIL_ID) && (boardID != arc::PCI_ID)) {
             std::ostringstream os;
             os << std::hex << "unknown boardID=0x" << boardID;
             throw std::runtime_error(os.str());
         }
-        std::cout << std::hex << "_device.Command("
+        std::cout << std::hex << "_device.command("
             <<  "0x" << boardID
             << ", " << formatCmd(cmd)
             << ", 0x" << arg1

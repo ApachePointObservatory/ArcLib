@@ -232,7 +232,7 @@ namespace arcticICC {
         @param[in] arg2  argument 2 (optional)
         @param[in] arg3  argument 3 (optional)
         */
-        void runCommand(std::string const &descr, int boardID, int cmd, int arg1=0, int arg2=0, int arg3=0);
+        void runCommand(std::string const &descr, uint32_t boardID, uint32_t cmd, uint32_t arg1=0, uint32_t arg2=0, uint32_t arg3=0);
         CameraConfig _config;       /// camera configuration
         std::string _expName;       /// exposure name (used for the FITS file)
         ExposureType _expType;      /// exposure type
