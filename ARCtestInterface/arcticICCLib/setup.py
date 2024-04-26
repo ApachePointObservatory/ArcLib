@@ -29,6 +29,9 @@ setup(
                 libraries=[
                     "cfitsio",
                     ],
+                define_macros=[
+                    ("_PCI",None),
+                    ],
                 extra_compile_args=[
                     "-std=c++20",
                     ],

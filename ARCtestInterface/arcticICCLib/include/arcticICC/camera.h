@@ -4,7 +4,11 @@
 #include <string>
 #include <map>
 
-#include "CArcPCIe.h"
+#ifdef _PCIe
+    #include "CArcPCIe.h"
+#elif _PCI
+    #include "CArcPCI.h"
+#endif
 #include "CArcDevice.h"
 
 #include "arcticICC/basics.h"
@@ -245,8 +249,12 @@ namespace arcticICC {
             /// updated when an exposure is paused or resumed; invalid if isExposing false
         bool _segmentStartValid;    /// true if exposing, reading out or read out, but not paused or idle
         bool _bufferCleared;        /// true when idle or exposing; getExposureStatus sets it when reading out
-
+#ifdef _PCIe
         arc::gen3::CArcPCIe _device;  /// the Leach API's representation of a camera controller
+#elif _PCI
+        arc::gen3::CArcPCI _device;  /// the Leach API's representation of a camera controller
+#endif
+	
     };
 
     std::ostream &operator<<(std::ostream &os, CameraConfig const &config);

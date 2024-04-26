@@ -225,8 +225,14 @@ namespace arcticICC {
         int const fullWidth = CameraConfig::getMaxWidth();
         int const fullHeight = CameraConfig::getMaxHeight();
         int const numBytes = fullWidth * fullHeight * sizeof(uint16_t);
-        std::cout << "arc::device::CArcPCIe::findDevices()\n";
+#ifdef _PCIe
+	std::cout << "arc::device::CArcPCIe::findDevices()\n";
         arc::gen3::CArcPCIe::findDevices();
+#elif _PCI
+        std::cout << "arc::device::CArcPCI::findDevices()\n";
+        arc::gen3::CArcPCI::findDevices();
+#endif
+
         std::cout << "_device.deviceCount()=" << _device.deviceCount() << std::endl;
         if (_device.deviceCount() < 1) {
             throw std::runtime_error("no Leach controller found");
