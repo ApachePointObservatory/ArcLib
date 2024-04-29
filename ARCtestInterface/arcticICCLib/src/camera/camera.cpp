@@ -33,23 +33,14 @@ namespace {
         {arcticICC::ReadoutAmps::Quad, arc::AMP_ALL}
     };
 
-// this results in undefined link symbols, so use direct constants for now. But why???
-    // std::map<arcticICC::ReadoutAmps, int> ReadoutAmpsDeinterlaceAlgorithmMap {
-    //     {arcticICC::ReadoutAmps::LL,    arc::deinterlace::CArcDeinterlace::DEINTERLACE_NONE},
-    //     {arcticICC::ReadoutAmps::LR,    arc::deinterlace::CArcDeinterlace::DEINTERLACE_NONE},
-    //     {arcticICC::ReadoutAmps::UR,    arc::deinterlace::CArcDeinterlace::DEINTERLACE_NONE},
-    //     {arcticICC::ReadoutAmps::UL,    arc::deinterlace::CArcDeinterlace::DEINTERLACE_NONE},
-    //     {arcticICC::ReadoutAmps::Quad,  arc::deinterlace::CArcDeinterlace::DEINTERLACE_CCD_QUAD},
-    // };
-
-    std::map<arcticICC::ReadoutAmps, uint32_t> ReadoutAmpsDeinterlaceAlgorithmMap {
-        {arcticICC::ReadoutAmps::LL,    0},
-        {arcticICC::ReadoutAmps::LR,    0},
-        {arcticICC::ReadoutAmps::UR,    0},
-        {arcticICC::ReadoutAmps::UL,    0},
-        {arcticICC::ReadoutAmps::Quad,  3}
+    std::map<arcticICC::ReadoutAmps, arc::gen3::dlace::e_Alg> ReadoutAmpsDeinterlaceAlgorithmMap {
+        {arcticICC::ReadoutAmps::LL,    arc::gen3::dlace::e_Alg::NONE},
+        {arcticICC::ReadoutAmps::LR,    arc::gen3::dlace::e_Alg::NONE},
+        {arcticICC::ReadoutAmps::UR,    arc::gen3::dlace::e_Alg::NONE},
+        {arcticICC::ReadoutAmps::UL,    arc::gen3::dlace::e_Alg::NONE},
+        {arcticICC::ReadoutAmps::Quad,  arc::gen3::dlace::e_Alg::QUAD_CCD}
     };
-
+    
     std::map<int, int> ColBinXSkipMap_One {
         {1, 4},
         {2, 4},
@@ -135,6 +126,7 @@ namespace arcticICC {
             << ", winWidth=" << config.winWidth
             << ", winHeight=" << config.winHeight
             << ")";
+	return os;
     }
 
     void CameraConfig::assertValid() const {
@@ -436,15 +428,23 @@ namespace arcticICC {
         }
 
         try {
-            uint32_t deinterlaceAlgorithm = ReadoutAmpsDeinterlaceAlgorithmMap.find(_config.readoutAmps)->second;
-	    //Gotta create a *uint16 from the *uint8 returned by commonBufferVA().
+	    arc::gen3::dlace::e_Alg deinterlaceAlgorithm = ReadoutAmpsDeinterlaceAlgorithmMap.find(_config.readoutAmps)->second; 
+            //Gotta create a *uint16 from the *uint8 returned by commonBufferVA().
 	    uint8_t *commonBufferVA_8=_device.commonBufferVA();
 	    uint16_t commonBufferVA_16= 0x0000 | *commonBufferVA_8;
-	    arc::gen3::dlace::e_Alg deinterlaceAlgorithmEnum { deinterlaceAlgorithm };
             arc::gen3::CArcDeinterlace deinterlacer;
-            std::cout << "deinterlacer.RunAlg(" << _device.commonBufferVA() << ", "
-                <<  _config.getBinnedHeight() << ", " << _config.getBinnedWidth() << ", " << deinterlaceAlgorithm << ")" << std::endl;
-            deinterlacer.run(&commonBufferVA_16, _config.getBinnedHeight(), _config.getBinnedWidth(), deinterlaceAlgorithmEnum, {});
+            std::cout << "deinterlacer.run(" << commonBufferVA_16 
+		    << ", " <<  _config.getBinnedHeight()
+		    << ", " << _config.getBinnedWidth() 
+		    << ", " << uint32_t(deinterlaceAlgorithm) 
+		    << ", " << "{}"
+		    << ")" << std::endl;
+            deinterlacer.run(&commonBufferVA_16,
+			    _config.getBinnedHeight(),
+			    _config.getBinnedWidth(),
+			    deinterlaceAlgorithm, 
+			    {}
+			    );
 
 
             arc::gen3::CArcFitsFile cFits;
