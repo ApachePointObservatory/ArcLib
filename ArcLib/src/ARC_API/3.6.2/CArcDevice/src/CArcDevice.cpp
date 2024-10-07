@@ -26,7 +26,7 @@
 
 //#include <fstream>
 //std::ofstream dbgStream( "CArcDevice_Debug.txt" );
-
+using namespace std::string_literals;
 
 namespace arc
 {

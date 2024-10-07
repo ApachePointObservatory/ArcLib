@@ -26,7 +26,7 @@
 #include <CArcStringList.h>
 #include <ArcDefs.h>
 
-using namespace std::string_literals;
+//using namespace std::string_literals;
 
 
 namespace arc
@@ -314,91 +314,91 @@ namespace arc
 				std::uint32_t PCICommand( const std::uint32_t uiCommand );
 
 
-				//  Driver ioctl commands
+				//  Driver ioctl commands **GMacD CHANGED auto to std::uint32_t for SWIG
 				// +------------------------------------------------------------------------------
 
 				/** Read the host control register (HSTR) */
-				static constexpr auto ASTROPCI_GET_HCTR				= static_cast< std::uint32_t >( 0x01 );
+				static constexpr std::uint32_t ASTROPCI_GET_HCTR		= static_cast< std::uint32_t >( 0x01 );
 
 				/** Read the pixel count for the current image readout */
-				static constexpr auto ASTROPCI_GET_PROGRESS			= static_cast< std::uint32_t >( 0x02 );
+				static constexpr std::uint32_t ASTROPCI_GET_PROGRESS		= static_cast< std::uint32_t >( 0x02 );
 
 				/** Read the kernel image buffer physical address */
-				static constexpr auto ASTROPCI_GET_DMA_ADDR			= static_cast< std::uint32_t >( 0x03 );
+				static constexpr std::uint32_t ASTROPCI_GET_DMA_ADDR		= static_cast< std::uint32_t >( 0x03 );
 
 				/** Read the host status register (HSTR) */
-				static constexpr auto ASTROPCI_GET_HSTR				= static_cast< std::uint32_t >( 0x04 );
+				static constexpr std::uint32_t ASTROPCI_GET_HSTR		= static_cast< std::uint32_t >( 0x04 );
 
 				/** Memory map the kernel image buffer into the user space for access by this library */
-				static constexpr auto ASTROPCI_MEM_MAP				= static_cast< std::uint32_t >( 0x05 );
+				static constexpr std::uint32_t ASTROPCI_MEM_MAP			= static_cast< std::uint32_t >( 0x05 );
 
 				/** Read the kernel image buffer size (in bytes). This is the actual size; not the mapped size, which may be less */
-				static constexpr auto ASTROPCI_GET_DMA_SIZE			= static_cast< std::uint32_t >( 0x06 );
+				static constexpr std::uint32_t ASTROPCI_GET_DMA_SIZE		= static_cast< std::uint32_t >( 0x06 );
 
 				/** Read the number of image frames during continuous readout */
-				static constexpr auto ASTROPCI_GET_FRAMES_READ		= static_cast< std::uint32_t >( 0x07 );
+				static constexpr std::uint32_t ASTROPCI_GET_FRAMES_READ		= static_cast< std::uint32_t >( 0x07 );
 
 				/** Read or write to the host command vector data register. The command data is written to this resiter and 
 				 *  the command reply data is in turn read from this register. */
-				static constexpr auto ASTROPCI_HCVR_DATA			= static_cast< std::uint32_t >( 0x10 );
+				static constexpr std::uint32_t ASTROPCI_HCVR_DATA		= static_cast< std::uint32_t >( 0x10 );
 
 				/** Write to the host control register (HCTR) */
-				static constexpr auto ASTROPCI_SET_HCTR				= static_cast< std::uint32_t >( 0x11 );
+				static constexpr std::uint32_t ASTROPCI_SET_HCTR		= static_cast< std::uint32_t >( 0x11 );
 
 				/** Write to the host command vector register */
-				static constexpr auto ASTROPCI_SET_HCVR				= static_cast< std::uint32_t >( 0x12 );
+				static constexpr std::uint32_t ASTROPCI_SET_HCVR		= static_cast< std::uint32_t >( 0x12 );
 
 				/** Inform the DSP that new PCI boot code will be downloaded */
-				static constexpr auto ASTROPCI_PCI_DOWNLOAD			= static_cast< std::uint32_t >( 0x13 );
+				static constexpr std::uint32_t ASTROPCI_PCI_DOWNLOAD		= static_cast< std::uint32_t >( 0x13 );
 
 				/** Waits for the PCI board to finish booting after a download. Returns 'DON' when finished; 'BSY' while busy. */
-				static constexpr auto ASTROPCI_PCI_DOWNLOAD_WAIT	= static_cast< std::uint32_t >( 0x14 );
+				static constexpr std::uint32_t ASTROPCI_PCI_DOWNLOAD_WAIT	= static_cast< std::uint32_t >( 0x14 );
 
 				/** Inform the PCI board to send the command data written to the HCVR_DATA register to the controller. Waits for the command reply. */
-				static constexpr auto ASTROPCI_COMMAND				= static_cast< std::uint32_t >( 0x15 );
+				static constexpr std::uint32_t ASTROPCI_COMMAND			= static_cast< std::uint32_t >( 0x15 );
 
 				/** Un-map the kernel image buffer from user space */
-				static constexpr auto ASTROPCI_MEM_UNMAP			= static_cast< std::uint32_t >( 0x16 );
+				static constexpr std::uint32_t ASTROPCI_MEM_UNMAP		= static_cast< std::uint32_t >( 0x16 );
 
 				/** Unused */
-				static constexpr auto ASTROPCI_ABORT				= static_cast< std::uint32_t >( 0x17 );
+				static constexpr std::uint32_t ASTROPCI_ABORT			= static_cast< std::uint32_t >( 0x17 );
 
 				/** Unused */
-				static constexpr auto ASTROPCI_CONTROLLER_DOWNLOAD	= static_cast< std::uint32_t >( 0x19 );
+				static constexpr std::uint32_t ASTROPCI_CONTROLLER_DOWNLOAD	= static_cast< std::uint32_t >( 0x19 );
 
 				/** Read the current pixel count during continuous readout */
-				static constexpr auto ASTROPCI_GET_CR_PROGRESS		= static_cast< std::uint32_t >( 0x20 );
+				static constexpr std::uint32_t ASTROPCI_GET_CR_PROGRESS		= static_cast< std::uint32_t >( 0x20 );
 
 				/** Read the lower 32-bits of the kernel image buffer physical address */
-				static constexpr auto ASTROPCI_GET_DMA_LO_ADDR		= static_cast< std::uint32_t >( 0x21 );
+				static constexpr std::uint32_t ASTROPCI_GET_DMA_LO_ADDR		= static_cast< std::uint32_t >( 0x21 );
 
 				/** Read the upper 32-bits of the kernel image buffer physical address */
-				static constexpr auto ASTROPCI_GET_DMA_HI_ADDR		= static_cast< std::uint32_t >( 0x22 );
+				static constexpr std::uint32_t ASTROPCI_GET_DMA_HI_ADDR		= static_cast< std::uint32_t >( 0x22 );
 
 				/** Read a byte (8-bits) of data from a PCI configuration space register */
-				static constexpr auto ASTROPCI_GET_CONFIG_BYTE		= static_cast< std::uint32_t >( 0x30 );
+				static constexpr std::uint32_t ASTROPCI_GET_CONFIG_BYTE		= static_cast< std::uint32_t >( 0x30 );
 
 				/** Read a word (16-bits) of data from a PCI configuration space register */
-				static constexpr auto ASTROPCI_GET_CONFIG_WORD		= static_cast< std::uint32_t >( 0x31 );
+				static constexpr std::uint32_t ASTROPCI_GET_CONFIG_WORD		= static_cast< std::uint32_t >( 0x31 );
 
 				/** Read a dword (32-bits) of data from a PCI configuration space register */
-				static constexpr auto ASTROPCI_GET_CONFIG_DWORD		= static_cast< std::uint32_t >( 0x32 );
+				static constexpr std::uint32_t ASTROPCI_GET_CONFIG_DWORD	= static_cast< std::uint32_t >( 0x32 );
 
 				/** Write a byte (8-bits) of data to a PCI configuration space register */
-				static constexpr auto ASTROPCI_SET_CONFIG_BYTE		= static_cast< std::uint32_t >( 0x33 );
+				static constexpr std::uint32_t ASTROPCI_SET_CONFIG_BYTE		= static_cast< std::uint32_t >( 0x33 );
 
 				/** Write a word (16-bits) of data to a PCI configuration space register */
-				static constexpr auto ASTROPCI_SET_CONFIG_WORD		= static_cast< std::uint32_t >( 0x34 );
+				static constexpr std::uint32_t ASTROPCI_SET_CONFIG_WORD		= static_cast< std::uint32_t >( 0x34 );
 
 				/** Write a dword (32-bits) of data to a PCI configuration space register */
-				static constexpr auto ASTROPCI_SET_CONFIG_DWORD		= static_cast< std::uint32_t >( 0x35 );
+				static constexpr std::uint32_t ASTROPCI_SET_CONFIG_DWORD	= static_cast< std::uint32_t >( 0x35 );
 
 
 				//  Status register ( HSTR ) constants
 				// +------------------------------------------------------------------------------
 
 				/** Host status flag bit mask */
-				static constexpr auto HTF_BIT_MASK				= static_cast< std::uint32_t >( 0x00000038 );
+				static constexpr std::uint32_t HTF_BIT_MASK			= static_cast< std::uint32_t >( 0x00000038 );
 
 				/** @enum arc::gen3::ePCIStatus
 				 *  Defines the PCI status register bits
@@ -433,25 +433,25 @@ namespace arc
 				// +----------------------------------------------------------------------------
 
 				/** Reset the PCI board */
-				static constexpr auto PCI_RESET					= static_cast< std::uint32_t >( 0x8077 );
+				static constexpr std::uint32_t PCI_RESET			= static_cast< std::uint32_t >( 0x8077 );
 
 				/** Attempt to cancel the current image read */
-				static constexpr auto ABORT_READOUT				= static_cast< std::uint32_t >( 0x8079 );
+				static constexpr std::uint32_t ABORT_READOUT			= static_cast< std::uint32_t >( 0x8079 );
 
 				/** Boot the PCI board using the firmware stored in the EEPROM */
-				static constexpr auto BOOT_EEPROM				= static_cast< std::uint32_t >( 0x807B );
+				static constexpr std::uint32_t BOOT_EEPROM			= static_cast< std::uint32_t >( 0x807B );
 
 				/** Read the header from the last received command reply */
-				static constexpr auto READ_HEADER				= static_cast< std::uint32_t >( 0x81 );
+				static constexpr std::uint32_t READ_HEADER			= static_cast< std::uint32_t >( 0x81 );
 
 				/** Reset the controller */
-				static constexpr auto RESET_CONTROLLER			= static_cast< std::uint32_t >( 0x87 );
+				static constexpr std::uint32_t RESET_CONTROLLER			= static_cast< std::uint32_t >( 0x87 );
 
 				/** Initialize the internal PCI image buffer address */
-				static constexpr auto INITIALIZE_IMAGE_ADDRESS	= static_cast< std::uint32_t >( 0x91 );
+				static constexpr std::uint32_t INITIALIZE_IMAGE_ADDRESS		= static_cast< std::uint32_t >( 0x91 );
 
 				/** Write the stored command over the fiber to the controller */
-				static constexpr auto WRITE_COMMAND				= static_cast< std::uint32_t >( 0xB1 );
+				static constexpr std::uint32_t WRITE_COMMAND			= static_cast< std::uint32_t >( 0xB1 );
 
 
 				// +----------------------------------------------------------------------------
@@ -459,16 +459,16 @@ namespace arc
 				// +----------------------------------------------------------------------------
 
 				/** The PCI status register flag mask */
-				static constexpr auto HTF_MASK					= static_cast< std::uint32_t >( 0x200 );
+				static constexpr std::uint32_t HTF_MASK				= static_cast< std::uint32_t >( 0x200 );
 
 				/** Clear the PCI status register flag bits */
-				static constexpr auto HTF_CLEAR_MASK			= static_cast< std::uint32_t >( 0xFFFFFCFF );	// Bits 8 and 9
+				static constexpr std::uint32_t HTF_CLEAR_MASK			= static_cast< std::uint32_t >( 0xFFFFFCFF );	// Bits 8 and 9
 
 				/** The maximum number of PCI test data links ('TDL') to perform */
-				static constexpr auto MAX_PCI_COMM_TEST			= static_cast< std::uint32_t >( 3 );
+				static constexpr std::uint32_t MAX_PCI_COMM_TEST		= static_cast< std::uint32_t >( 3 );
 
 				/** The PCI test data link start value */
-				static constexpr auto PCI_COM_TEST_VALUE		= static_cast< std::uint32_t >( 0xABC123 );
+				static constexpr std::uint32_t PCI_COM_TEST_VALUE		= static_cast< std::uint32_t >( 0xABC123 );
 
 			private:
 
