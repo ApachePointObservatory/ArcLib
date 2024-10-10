@@ -14,9 +14,6 @@
 %init %{
 %}
 
-#define __attribute__(x)
-#define GEN3_CARCDEVICE_API __attribute__((visibility("default")))
-
 // Specifies the default C++ to python exception handling interface
 %exception {
     try {

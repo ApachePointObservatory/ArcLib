@@ -77,14 +77,13 @@
 
 %feature("notabstract") arc::gen3::CArcPCI;
 
-%include "CArcDevice.h"
+%extend arc::gen3::CArcPCI {
+        std::uint16_t bufferVA( void ){
+                return static_cast<std::uint16_t>( *($self->CArcDevice::commonBufferVA()) );
+        }
+}
+
+%import "CArcDevice.h"
 %import "CArcPCIBase.h"
 %include "CArcPCI.h"
 
-//%extend arcticICC::CameraConfig {
-//    std::string __repr__() const {
-//        std::ostringstream os;
-//        os << (*self);
-//        return os.str();
-//    }
-//}
