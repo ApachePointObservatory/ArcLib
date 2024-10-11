@@ -94,7 +94,7 @@
                 std::vector<std::string> devList;
                 std::shared_ptr<std::string[]> deviceStringList = $self->getDeviceStringList().lock();
                 for (std::uint32_t i=0U ; i < $self->deviceCount(); i++ ) {
-                        devList[i] = deviceStringList[i];
+                        devList.push_back(deviceStringList[i]);
                 }
                 return devList;
                 
