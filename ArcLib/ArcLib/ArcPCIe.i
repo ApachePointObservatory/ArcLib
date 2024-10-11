@@ -91,13 +91,9 @@
         }
         /* Overload return/params for arc::gen3::CArcPCIe::getDeviceStringList() */
         std::vector<std::string> getDeviceStringList(void) {
-                std::vector<std::string> devList;
                 std::shared_ptr<std::string[]> deviceStringList = $self->getDeviceStringList().lock();
-                for (std::uint32_t i=0U ; i < $self->deviceCount(); i++ ) { 
-                        devList.push_back(deviceStringList[i]);
-                }
+                std::vector<std::string> devList($self->deviceCount(), *deviceStringList.get());
                 return devList;
-    
         }
 }
 /* Ignore the original prototype of arc::gen3::CArcPCIe::getDeviceStringList() */
