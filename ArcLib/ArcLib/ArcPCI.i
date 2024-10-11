@@ -77,11 +77,31 @@
 
 %feature("notabstract") arc::gen3::CArcPCI;
 
+/* Template for getDeviceStringList return */
+%template(vectorstr) std::vector<std::string>;
+
 %extend arc::gen3::CArcPCI {
-        std::uint16_t bufferVA( void ){
+        /* Overload return/params for arc::gen3::CArcPCI::commonBufferVA() */
+        std::uint8_t commonBufferVA( void ) {
+                return *($self->CArcDevice::commonBufferVA());
+        }
+        /* Overload return/params for arc::gen3::CArcPCI::commonBufferVA() */
+        std::uint16_t commonBufferVA_uint16( void ) {
                 return static_cast<std::uint16_t>( *($self->CArcDevice::commonBufferVA()) );
         }
+        /* Overload return/params for arc::gen3::CArcPCI::getDeviceStringList() */
+        std::vector<std::string> getDeviceStringList(void) {
+                std::vector<std::string> devList;
+                std::shared_ptr<std::string[]> deviceStringList = $self->getDeviceStringList().lock();
+                for (std::uint32_t i=0U ; i < $self->deviceCount(); i++ ) {
+                        devList[i] = deviceStringList[i];
+                }
+                return devList;
+                
+        }
 }
+/* Ignore the original prototype of arc::gen3::CArcPCI::getDeviceStringList() */
+%ignore arc::gen3::CArcPCI::getDeviceStringList();
 
 %import "CArcDevice.h"
 %import "CArcPCIBase.h"
