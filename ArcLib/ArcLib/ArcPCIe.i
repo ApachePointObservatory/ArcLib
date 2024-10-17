@@ -99,7 +99,7 @@
 /* Ignore the original prototype of arc::gen3::CArcPCIe::getDeviceStringList() */
 %ignore arc::gen3::CArcPCIe::getDeviceStringList();
 
-%include "CArcDevice.h"
+%import "CArcDevice.h"
 %import "CArcPCIBase.h"
 %include "CArcPCIe.h"
 
