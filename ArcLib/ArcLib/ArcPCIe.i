@@ -90,14 +90,18 @@
                 return static_cast<std::uint16_t>( *($self->CArcDevice::commonBufferVA()) );
         }
         /* Overload return/params for arc::gen3::CArcPCIe::getDeviceStringList() */
-        std::vector<std::string> getDeviceStringList(void) {
-                std::shared_ptr<std::string[]> deviceStringList = $self->getDeviceStringList().lock();
-                std::vector<std::string> devList($self->deviceCount(), *deviceStringList.get());
+        static std::vector<std::string> getDeviceStringList(void) {
+                std::shared_ptr<std::string[]> deviceStringList = arc::gen3::CArcPCIe::getDeviceStringList().lock();
+                std::vector<std::string> devList(arc::gen3::CArcPCIe::deviceCount(), *deviceStringList.get());
                 return devList;
         }
 }
 /* Ignore the original prototype of arc::gen3::CArcPCIe::getDeviceStringList() */
 %ignore arc::gen3::CArcPCIe::getDeviceStringList();
+/* Ignore this member function because it takes std::initializer_list<T> as
+   input, which is hard to wrap. It could be extended later to take
+   std::vector<T> as input. */
+%ignore arc::gen3::CArcPCIe::command(const std::initializer_list<const std::uint32_t>&);
 
 %import "CArcDevice.h"
 %import "CArcPCIBase.h"

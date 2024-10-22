@@ -78,7 +78,8 @@
 %feature("notabstract") arc::gen3::CArcPCI;
 
 /* Template for getDeviceStringList return */
-%template(vectorstr) std::vector<std::string>;
+%template(vectorString) std::vector<std::string>;
+%template(vectorUint32) std::vector<std::uint32_t>;
 
 %extend arc::gen3::CArcPCI {
         /* Overload return/params for arc::gen3::CArcPCI::commonBufferVA() */
@@ -90,14 +91,18 @@
                 return static_cast<std::uint16_t>( *($self->CArcDevice::commonBufferVA()) );
         }
         /* Overload return/params for arc::gen3::CArcPCI::getDeviceStringList() */
-        std::vector<std::string> getDeviceStringList(void) {
-                std::shared_ptr<std::string[]> deviceStringList = $self->getDeviceStringList().lock();
-                std::vector<std::string> devList($self->deviceCount(), *deviceStringList.get());
+        static std::vector<std::string> getDeviceStringList(void) {
+                std::shared_ptr<std::string[]> deviceStringList = arc::gen3::CArcPCI::getDeviceStringList().lock();
+                std::vector<std::string> devList(arc::gen3::CArcPCI::deviceCount(), *deviceStringList.get());
                 return devList;
         }
 }
 /* Ignore the original prototype of arc::gen3::CArcPCI::getDeviceStringList() */
 %ignore arc::gen3::CArcPCI::getDeviceStringList();
+/* Ignore this member function because it takes std::initializer_list<T> as
+   input, which is hard to wrap. It could be extended later to take
+   std::vector<T> as input. */
+%ignore arc::gen3::CArcPCI::command(const std::initializer_list<const std::uint32_t>&);
 
 %import "CArcDevice.h"
 %import "CArcPCIBase.h"
