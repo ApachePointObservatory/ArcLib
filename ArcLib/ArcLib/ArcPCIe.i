@@ -81,19 +81,197 @@
 %template(vectorstr) std::vector<std::string>;
 
 %extend arc::gen3::CArcPCIe {
-        /* Overload return/params for arc::gen3::CArcPCIe::commonBufferVA() */
-        std::uint8_t commonBufferVA( void ) { 
-                return *($self->CArcDevice::commonBufferVA());
-        }
-        /* Overload return/params for arc::gen3::CArcPCIe::commonBufferVA() */
-        std::uint16_t commonBufferVA_uint16( void ) { 
-                return static_cast<std::uint16_t>( *($self->CArcDevice::commonBufferVA()) );
-        }
         /* Overload return/params for arc::gen3::CArcPCIe::getDeviceStringList() */
         static std::vector<std::string> getDeviceStringList(void) {
                 std::shared_ptr<std::string[]> deviceStringList = arc::gen3::CArcPCIe::getDeviceStringList().lock();
                 std::vector<std::string> devList(arc::gen3::CArcPCIe::deviceCount(), *deviceStringList.get());
                 return devList;
+        }
+
+        /* 
+         * The following will modify return types or include class methods in
+         * arc::gen3::CArcDevice and make them available in the wrapper around
+         * the arc::gen3::CArcPCI class.
+         */
+
+        /* Overload return for arc::gen3::CArcDevice::commonBufferVA()
+         * Returns a uint8. This will modify the API. 
+         */
+        std::uint8_t commonBufferVA( void ) {
+                return *($self->CArcDevice::commonBufferVA());
+        }
+        /* Overload return for arc::gen3::CArcDevice::commonBufferVA()
+         * Returns a uint16. This modifies the API.
+         */
+        std::uint16_t commonBufferVA_uint16( void ) {
+                return static_cast<std::uint16_t>( *($self->CArcDevice::commonBufferVA()) );
+        }
+        /* Extend to use CArcDevice::fillCommonBuffer() */
+        void fillCommonBuffer( const std::uint16_t uwValue=0 ) {
+                $self->fillCommonBuffer( uwValue );
+        }
+        /* Extend to use CArcDevice::setupController() */
+        void setupController(   bool bReset,
+                                bool bTdl,
+                                bool bPower,
+                                const std::uint32_t uiRows,
+                                const std::uint32_t uiCols,
+                                const std::filesystem::path &tTimFile,
+                                const std::filesystem::path &tUtilFile=std::filesystem::path(),
+                                const std::filesystem::path &tPciFile=std::filesystem::path(),
+                                bool *pAbort=nullptr
+                                ) {
+                $self->setupController( bReset,
+                                        bTdl,
+                                        bPower,
+                                        uiRows,
+                                        uiCols,
+                                        tTimFile,
+                                        tUtilFile,
+                                        tPciFile,
+                                        pAbort
+                                        );
+        }
+        /* Extend to use CArcDevice::loadControllerFile() */
+        void loadControllerFile(        const std::filesystem::path &tFilename,
+                                        bool bValidate=true,
+                                        bool *pAbort=nullptr
+                                        ) {
+                $self->loadControllerFile( tFilename, bValidate, pAbort );
+        }
+        /* Extend to use CArcDevice::setImageSize() */
+        void setImageSize(      const std::uint32_t uiRows,
+                                const std::uint32_t uiCols
+                                ) {
+                $self->setImageSize( uiRows, uiCols );
+        }
+        /* Extend to use CArcDevice::getImageRows() */
+        std::uint32_t getImageRows( void ) {
+                return $self->getImageRows();
+        }
+        /* Extend to use CArcDevice::getImageCols() */
+        std::uint32_t getImageCols( void ) {
+                return $self->getImageCols();
+        }
+        /* Extend to use CArcDevice::getCCParams() */
+        std::uint32_t getCCParams( void ) {
+                return $self->getCCParams();
+        }
+        /* Extend to use CArcDevice::isBinningSet() */
+        bool isBinningSet( void ) {
+                return $self->isBinningSet();
+        }
+        /* Extend to use CArcDevice::setBinning() */
+        void setBinning(        const std::uint32_t uiRows, 
+                                const std::uint32_t uiCols, 
+                                const std::uint32_t uiRowFactor, 
+                                const std::uint32_t uiColFactor, 
+                                std::uint32_t *pBinRows=nullptr, 
+                                std::uint32_t *pBinCols=nullptr
+                                ) {
+                $self->setBinning(      uiRows,
+                                        uiCols,
+                                        uiRowFactor,
+                                        uiColFactor,
+                                        pBinRows,
+                                        pBinCols
+                                        );
+        }
+        /* Extend to use CArcDevice::unSetBinning */
+        void unSetBinning(      const std::uint32_t uiRows,
+                                const std::uint32_t uiCols
+                                ) {
+                $self->unSetBinning( uiRows, uiCols );
+        }
+        /* Extend to use CArcDevice::setSubArray() */
+        void setSubArray(       std::uint32_t &uiOldRows,
+                                std::uint32_t &uiOldCols, 
+                                const std::uint32_t uiRow, 
+                                const std::uint32_t uiCol, 
+                                const std::uint32_t uiSubRows, 
+                                const std::uint32_t uiSubCols, 
+                                const std::uint32_t uiBiasOffset, 
+                                const std::uint32_t uiBiasWidth
+                                ) {
+                $self->setSubArray(     uiOldRows,
+                                        uiOldCols,
+                                        uiRow,
+                                        uiCol,
+                                        uiSubRows,
+                                        uiSubCols,
+                                        uiBiasOffset,
+                                        uiBiasWidth
+                                        );
+        }
+        /* Extend to use CArcDevice::unSetSubArray() */
+        void unSetSubArray(const std::uint32_t uiRows, const std::uint32_t uiCols) {
+                $self->unSetSubArray(uiRows, uiCols);
+        }
+        /* Extend to use CArcDevice::isSyntheticImageMode() */
+        bool isSyntheticImageMode( void ) {
+                return $self->isSyntheticImageMode();
+        }
+        /* Extend to use CArcDevice::setSyntheticImageMode() */
+        void setSyntheticImageMode( bool bMode ) {
+                $self->setSyntheticImageMode( bMode );
+        }
+        /* Extend to use CArcDevice::setOpenShutter() */
+        void setOpenShutter( bool bShouldOpen ) {
+                $self->setOpenShutter( bShouldOpen );
+        }
+        /* Extend to use CArcDevice::expose() */
+        void expose(    const float fExpTime, 
+                        const std::uint32_t uiRows, 
+                        const std::uint32_t uiCols, 
+                        const bool *pAbort=nullptr, 
+                        arc::gen3::CExpIFace *pExpIFace=nullptr, 
+                        bool bOpenShutter=true
+                        ) {
+                $self->expose(  fExpTime,
+                                uiRows,
+                                uiCols,
+                                pAbort,
+                                pExpIFace,
+                                bOpenShutter
+                                );
+        }
+        /* Extend to use CArcDevice::continuous() */
+        void continuous(        const std::uint32_t uiRows, 
+                                const std::uint32_t uiCols, 
+                                const std::uint32_t uiNumOfFrames, 
+                                const float fExpTime, 
+                                const bool *pAbort=nullptr, 
+                                arc::gen3::CConIFace *pConIFace=nullptr, 
+                                bool bOpenShutter=true
+                                ) {
+                $self->continuous(      uiRows,
+                                        uiCols,
+                                        uiNumOfFrames,
+                                        fExpTime,
+                                        pAbort,
+                                        pConIFace,
+                                        bOpenShutter
+                                        );
+        }
+        /* Extend to use CArcDevice::stopContinuous() */
+        void stopContinuous( void ) {
+                $self->stopContinuous();
+        }
+        /* Extend to use CArcDevice::getCRPixelCount() */
+        std::uint32_t getCRPixelCount( void ) {
+                $self->getCRPixelCount();
+        }
+        /* Extend to use CArcDevice::getArrayTemperature() */
+        double getArrayTemperature( void ) {
+                return $self->getArrayTemperature();
+        }
+        /* Extend to use CArcDevice::getArrayTemperatureDN() */
+        double getArrayTemperatureDN( void ) {
+                return $self->getArrayTemperatureDN();
+        }
+        /* Extend to use CArcDevice::setArrayTemperature() */
+        void setArrayTemperature( double gTempVal ) {
+                $self->setArrayTemperature( gTempVal );
         }
 }
 /* Ignore the original prototype of arc::gen3::CArcPCIe::getDeviceStringList() */
