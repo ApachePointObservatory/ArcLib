@@ -1,6 +1,6 @@
 # ArcLib
 
-This is a Python wrapper around the Astronomical Research Cameras C++ GenIII API. The wrapper allows users to control and interface with ARC interfaces and devices from the Python interpreter. Wrapping is achieved using the Simplified Wrapper and Interface Generator (SWIG).
+This is a Python wrapper around the Astronomical Research Cameras GenIII C++ API. The wrapper allows users to control and interface with ARC interfaces and devices from the Python interpreter. Wrapping is achieved using the Simplified Wrapper and Interface Generator (SWIG).
 
 The idea is to allow calls directly to the ARC API from the Python interpreter using an interface similar to ARC's own API.
 
@@ -8,27 +8,30 @@ For more information about the ARC GenIII API, *c.f.* [The Gen III software and 
 
 ## Authors
 
-Python Wrapper interface: Gordon A. MacDonald, Ph.D, Apache Point Observatory, Sunspot NM.
+Python Wrapper: Gordon A. MacDonald, Ph.D, Apache Point Observatory, Sunspot NM.
+
 ARC GenIII API: Scott Streit, Astronomical Research Cameras.
 
 ## Provided Libraries
 
 The following functionalities of the ARC API are provided:
 
-+ ArcDeinterlace: an interface to the CArcDeinterlace class used to deinterlace images.
-+ ArcFitsFile: an interface to the CArcFitsFile class used to manipulate FITS files.
-+ ArcPCI: an interface to the CArcPCI class with extended functionality inherited from the CArcDevice base class.
-+ ArcPCIe: an interface to the CArcPCIe class with extended functionality inherited from the CArcDevice base class.
-+ ArcDefs: a collection of global variables and constants needed for the above wrappers to work. 
++ **ArcDeinterlace**: an interface to the CArcDeinterlace class used to deinterlace images.
++ **ArcFitsFile**: an interface to the CArcFitsFile class used to manipulate FITS files.
++ **ArcPCI**: an interface to the CArcPCI class with extended functionality inherited from the CArcDevice base class.
++ **ArcPCIe**: an interface to the CArcPCIe class with extended functionality inherited from the CArcDevice base class.
++ **ArcDefs**: a collection of global variables and constants needed for the above wrappers to work. 
 
 ## Dependencies
 
-This wrapper is tested with the following dependencies:
+This wrapper is *tested* with the following dependencies:
 
 + Python v3.10
-+ SWIG v1.4.2
++ SWIG > v1.4.2
 + gcc v11.4.0
 + libcfitsio (what version???)
+
+It will likely work with other versions of Python 3 and gcc. However, because ARC GenIII is a C++ codebase using the C++20 standard, it needs SWIG > v1.4.2 and gcc > v8.
 
 ## Building
 
@@ -46,7 +49,7 @@ Running ```dir()``` using any of the above modules as an argument will reveal th
 
 ### A Limited Example
 
-Below is a limited example for how to use this wrapper.
+A limited example illustrating how to use this wrapper is given below.
 
 ```
 >>> import _ArcPCIe, _ArcDefs
