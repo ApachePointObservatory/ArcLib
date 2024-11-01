@@ -34,6 +34,8 @@ This wrapper is tested with the following dependencies:
 
 From the top-level directory of this repository, execute ```python3 setup.py build_ext```.
 
+The resulting shared libs will be located in ```./build/lib.<distro>-cpython-<python-version>/```.
+
 ## How to Use
 
 Open a python interpreter and do

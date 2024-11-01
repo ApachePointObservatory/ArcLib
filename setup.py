@@ -5,7 +5,6 @@ import glob
 
 srcDict={}
 
-#TODO: srcList needs to be a dict.
 srcDict['ArcDeinterlace'] = glob.glob("src/ARC_API/3.6.2/CArcDeinterlace/src/*.cpp")
 srcDict['ArcDeinterlace'].append( "ArcLib/ArcDeinterlace.i")
 srcDict['ArcDeinterlace'].append( "src/ARC_API/3.6.2/CArcBase/src/CArcBase.cpp")
