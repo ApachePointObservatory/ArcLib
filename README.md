@@ -29,9 +29,16 @@ This wrapper is *tested* with the following dependencies:
 + Python v3.10
 + SWIG > v1.4.2
 + gcc v11.4.0
++ ARC API v3.6.2
 + libcfitsio (what version???)
 
 It will likely work with other versions of Python 3 and gcc. However, because ARC GenIII is a C++ codebase using the C++20 standard, it needs SWIG > v1.4.2 and gcc > v8.
+
+### The GenIII ARC API
+
+Slight modification of the ARC API might be needed to work with SWIG. For example, global variable declarations of the type ```constexpr auto VAR = static_cast<std::uint32_t>(1)``` need to be changed to read ```constexpr std::uint32_t VAR = static_cast<std::uint32_t>(1)```. This is because SWIG has a difficult time auto-typing static-cast constants.
+
+Another modification needed is to move ```using namespace``` directives from header files to their respective implementation. Not doing so pollutes the wrapper namespace and causes errors when compiling the SWIG wrapper code.
 
 ## Building
 
