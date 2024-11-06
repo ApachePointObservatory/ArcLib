@@ -1,5 +1,5 @@
 %define ModuleDocStr
-"Python interface to CArcDeinterlace C++ code."
+"SWIG interface to the C++ arc::gen3::CArcPCI class."
 %enddef
 
 %feature("autodoc", "1");
@@ -257,10 +257,6 @@
         /* Extend to use CArcDevice::stopContinuous() */
         void stopContinuous( void ) {
                 $self->stopContinuous();
-        }
-        /* Extend to use CArcDevice::getCRPixelCount() */
-        std::uint32_t getCRPixelCount( void ) {
-                $self->getCRPixelCount();
         }
         /* Extend to use CArcDevice::getArrayTemperature() */
         double getArrayTemperature( void ) {
