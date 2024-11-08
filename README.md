@@ -75,9 +75,9 @@ A limited example illustrating how to use this wrapper is given below.
 False
 >>> _ArcDefs.cvar.TDL	# Show the TDL global constant.
 5522508
->>> _ArcDefs.cvar.RDM	# SHow the RDM global constant.
+>>> _ArcDefs.cvar.RDM	# Show the RDM global constant.
 5391437
 >>> _ArcPCIe.CArcPCIe_close(arcDev)		# Close the device.
->>> _ArcPCIe.delete_CArcPCIe(arcDev)		# Destroy the PCIe device.
+>>> _ArcPCIe.delete_CArcPCIe(arcDev)		# Destroy the PCIe device instance.
 ```
 
